@@ -8,7 +8,7 @@ function Game() {
     <div>
       <Board />
       <span>Powered by: 
-        <img src={logo} width="50px" height = "50px" alt='react-logo'/>
+        <img src={logo} width="50px" height="50px" alt='react-logo'/>
       </span>
     </div>
   );
