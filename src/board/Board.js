@@ -10,6 +10,29 @@ class Cell extends React.Component {
   }
 }
 
+function determineNextPlayer(currentPlayer) {
+  return (currentPlayer === 'X') ? 'O' : 'X'
+}
+
+function calculateWinner(cells) {
+  const winStates = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6],
+  ]
+  for (let stateToCheck of winStates) {
+    if (cells[stateToCheck[0]] === cells[stateToCheck[1]] &&
+        cells[stateToCheck[1]] === cells[stateToCheck[2]])
+      return cells[stateToCheck[0]]
+  }
+  return null
+}
+
 class Board extends React.Component {
   constructor(props) {
     super(props);
@@ -19,17 +42,17 @@ class Board extends React.Component {
     }
   }
 
-  determineNextPlayer() {
-    return (this.state.nextPlayer === 'X') ? 'O' : 'X'
-  }
-
   handleCellClick(i) {
+    let currentPlayer = this.state.nextPlayer
+    if (calculateWinner(this.state.cells) || this.state.cells[i])
+      return;
+
     const cells = this.state.cells.slice()
-    cells[i] = this.state.nextPlayer
+    cells[i] = currentPlayer
 
     this.setState({
       'cells': cells,
-      'nextPlayer': this.determineNextPlayer(),
+      'nextPlayer': determineNextPlayer(currentPlayer),
     });
   }
 
@@ -38,9 +61,16 @@ class Board extends React.Component {
   }
 
   render() {
+    let gameStatus;
+    const winner = calculateWinner(this.state.cells)
+    if (winner) {
+      gameStatus = 'Winner is: ' + winner;
+    }
+    else
+      gameStatus = 'Next Player is: ' + this.state.nextPlayer 
     return (
       <div>
-        <div className="status">Next Player: {this.state.nextPlayer}</div>
+        <div className="status">{gameStatus}</div>
         <div className="board-row">
           {this.renderSquare(0)}
           {this.renderSquare(1)}
