@@ -15,14 +15,22 @@ class Board extends React.Component {
     super(props);
     this.state = {
       cells: Array(9).fill(null),
+      nextPlayer: 'X',
     }
   }
 
-  handleCellClick(i) {
-    const newCells = this.state.cells.slice()
-    newCells[i] = 'X'
+  determineNextPlayer() {
+    return (this.state.nextPlayer === 'X') ? 'O' : 'X'
+  }
 
-    this.setState({'cells': newCells});
+  handleCellClick(i) {
+    const cells = this.state.cells.slice()
+    cells[i] = this.state.nextPlayer
+
+    this.setState({
+      'cells': cells,
+      'nextPlayer': this.determineNextPlayer(),
+    });
   }
 
   renderSquare(i) {
@@ -30,11 +38,9 @@ class Board extends React.Component {
   }
 
   render() {
-    const status = 'Next Player: X';
-
     return (
       <div>
-        <div className="status">{status}</div>
+        <div className="status">Next Player: {this.state.nextPlayer}</div>
         <div className="board-row">
           {this.renderSquare(0)}
           {this.renderSquare(1)}
