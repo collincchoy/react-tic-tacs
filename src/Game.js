@@ -5,10 +5,10 @@ import Board from './board/Board'
 
 function Game() {
   return (
-    <div>
+    <div className="Game">
       <Board />
       <span>Powered by: 
-        <img src={logo} width="50px" height="50px" alt='react-logo'/>
+        <img src={logo} className="react-logo" alt='react-logo'/>
       </span>
     </div>
   );
