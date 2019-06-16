@@ -1,24 +1,32 @@
 import React from 'react'
 
 class Cell extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      value: null,
-    };
-  }
   render() {
     return (
-      <button className="square" onClick={() => this.setState({"value": "X"})}>
-        {this.state.value}
+      <button className="square" onClick={() => this.props.onClick()}>
+        {this.props.value}
       </button>
     );
   }
 }
 
 class Board extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      cells: Array(9).fill(null),
+    }
+  }
+
+  handleCellClick(i) {
+    const newCells = this.state.cells.slice()
+    newCells[i] = 'X'
+
+    this.setState({'cells': newCells});
+  }
+
   renderSquare(i) {
-    return <Cell value={i}/>;
+    return <Cell value={this.state.cells[i]} onClick={() => this.handleCellClick(i)}/>;
   }
 
   render() {
