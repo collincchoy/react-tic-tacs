@@ -1,0 +1,14 @@
+.Board {
+    display: flex;
+    flex-wrap: wrap;
+    width: 350px;
+    height: 350px;
+}
+
+.Cell {
+    flex: 100px;
+    width: 100px;
+    height: 100px;
+    text-align: center;
+    border: 5px solid black;
+}
