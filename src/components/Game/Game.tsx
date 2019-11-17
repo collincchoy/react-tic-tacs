@@ -1,23 +1,32 @@
 import React, { useState } from 'react';
 
 import { Board } from '../Board';
+import { StatusBar } from '../StatusBar';
 
 type GameState = {
-  winner?: string,
+  winner: string,
   currentPlayer: string,
 }
 
 export function Game() {
-  const [state, setState] = useState<GameState>({
-    currentPlayer: 'X',
-  });
+  const [currentPlayer, setCurrentPlayer] = useState<string>('X');
+  const [winner, setWinner] = useState<string | undefined>();
   return (
-    <GameContext.Provider value={[state, setState]}>
+    <GameContext.Provider value={{currentPlayer, setCurrentPlayer, winner, setWinner}}>
       <Board />
+      <StatusBar />
     </GameContext.Provider>
   )
 }
 
-export const GameContext = React.createContext<[GameState, (newState: GameState) => void]>([{
-  currentPlayer: 'X'
-}, (newState) => {}]);
+type GameContextType = {
+  currentPlayer: string,
+  setCurrentPlayer: (newPlayer: string) => void,
+  winner: string | undefined,
+  setWinner: (newWinner: string) => void,
+}
+
+export const GameContext = React.createContext<GameContextType>({
+  currentPlayer: '', setCurrentPlayer: () => null,
+  winner: undefined, setWinner: () => null,
+});

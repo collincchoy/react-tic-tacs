@@ -17,15 +17,16 @@ export function Board(props: BoardProps) {
     index: number;
   }
 
-  const {currentPlayer, changePlayer} = useGameContext();
+  const {currentPlayer, changePlayer, update, isGameOver} = useGameContext();
   const putToken = (turn: Turn) => {
     console.log("click" + JSON.stringify(cells));
-    if (cells[turn.index]) {
+    if (cells[turn.index] || isGameOver()) {
       return;
     }
     const newCells = cells.slice();
     newCells[turn.index] = turn.token;
     setCells(newCells);
+    update(newCells);
     changePlayer();
   }
 

@@ -3,27 +3,31 @@ import { GameContext } from "./Game";
 import { checkForEndGame } from '../../utils/Game';
 
 export const useGameContext = () => {
-  const [state, setState] = useContext(GameContext);
+  const {currentPlayer, setCurrentPlayer, winner, setWinner} = useContext(GameContext);
   const changePlayer = () => {
-    if (state.currentPlayer === 'X') {
-      setState({...state, currentPlayer: 'Y'});
+    if (currentPlayer === 'X') {
+      setCurrentPlayer('Y');
     } else {
-      setState({ ...state, currentPlayer: 'X'});
+      setCurrentPlayer('X');
     }
   }
 
-  function update(board: string[]) {
+  const update = (board: string[]) => {
     const winner = checkForEndGame(board);
+    console.log(`the wiener is ${winner}`);
     if (winner) {
-      setState({ ...state, winner: winner});
+      setWinner(winner);
     }
+    console.log(currentPlayer, winner);
   }
+
+  const isGameOver = () => !!winner;
 
   return {
-    currentPlayer: state.currentPlayer,
+    currentPlayer,
     changePlayer,
     update,
-    winner: state.winner,
-    isGameOver: () => !!state.winner,
+    winner,
+    isGameOver,
   }
 }
